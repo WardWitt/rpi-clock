@@ -1,0 +1,16 @@
+[Unit]
+Description=Raspberry Pi hosted clock
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=idle
+#User=admin
+#WorkingDirectory=/home/admin/rpi-clock
+ExecStartPre=/bin/sh -c 'until ping -c1 google.com; do sleep 1; done;'
+ExecStart=sudo /usr/bin/python3 /home/admin/rpi-clock/RPiclock.py
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target
