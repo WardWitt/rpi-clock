@@ -1,8 +1,8 @@
 
 import pygame, sys, math, time, os, socket, configparser
 from pygame.locals import *
-import json
 from LWRPClient import LWRPClient
+
 
 # Define Global Variables
 global LWRP, LWRP_GPIO, LWRP_GPIO_Triggers, GPIO, GPIO1, GPIO2, GPIO3, GPIO4
@@ -15,7 +15,7 @@ config = configparser.ConfigParser()
 config.read(base_dir + '/RPiclock.ini')
 
 # NTP status
-timestatus = ''
+timeStatus = False
 
 counter = 0
 
@@ -252,13 +252,15 @@ while True :
     if counter == 600:
         timestatus = os.popen('timedatectl').read()
         chronyc = os.popen('chronyc -c tracking').read().split(',')
-        lastTimeUpdate = chronyc[3]
-        updateInterval = chronyc[12]
-        updateTime = (float(lastTimeUpdate))
-        timeStats = str((time.time() - updateTime, 'Interval', updateInterval))
+        lastTimeUpdate = float(chronyc[3])
+        if time.time() - lastTimeUpdate < 600:
+            timeStatus = True
+        else:
+            timeStatus = False
+            print('Last valad time update', lastTimeUpdate)
         counter = 0
 
-    if 'System clock synchronized: yes' in timestatus:
+    if timeStatus:
         pygame.draw.circle(bg, NTP_GoodColor, (dotsize + 5, bg.get_height()-dotsize - 5), dotsize)
     else:
         pygame.draw.circle(bg, NTP_BadColor, (dotsize + 5, bg.get_height()-dotsize - 5), dotsize)
