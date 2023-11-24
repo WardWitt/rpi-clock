@@ -1,8 +1,9 @@
 
-import pygame, sys, math, time, os, socket, configparser
+import pygame, sys, math, time, os, socket, configparser, logging
 from pygame.locals import *
 from LWRPClient import LWRPClient
 
+logging.basicConfig(level=logging.DEBUG, filename='RPiclock.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s - %(asctime)s')
 
 # Define Global Variables
 global LWRP, LWRP_GPIO, LWRP_GPIO_Triggers, GPIO, GPIO1, GPIO2, GPIO3, GPIO4
@@ -18,7 +19,7 @@ config.read(base_dir + '/RPiclock.ini')
 timeStatus = False
 
 counter = 0
-
+logging.info('Start RPiclock')
 # Store the Livewire Routing Protocol (LWRP) client connection here
 LWRP = None
 LWRP_GPIO = None
@@ -250,14 +251,15 @@ while True :
     counter += 1
     
     if counter == 600:
-        timestatus = os.popen('timedatectl').read()
         chronyc = os.popen('chronyc -c tracking').read().split(',')
-        lastTimeUpdate = float(chronyc[3])
-        if time.time() - lastTimeUpdate < 600:
+        lastTimeUpdate = time.time() - float(chronyc[3])
+
+        if lastTimeUpdate < 2048:
             timeStatus = True
+            logging.info('Last valad time update %f seconds ago', lastTimeUpdate)
         else:
             timeStatus = False
-            print('Last valad time update', lastTimeUpdate)
+            logging.warning('!!! - Last valad time update %f seconds ago - !!!', lastTimeUpdate)
         counter = 0
 
     if timeStatus:
