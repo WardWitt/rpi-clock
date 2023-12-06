@@ -1,5 +1,6 @@
 
 import pygame, sys, math, time, os, socket, configparser, logging
+import pygame.gfxdraw
 from pygame.locals import *
 from LWRPClient import LWRPClient
 
@@ -231,14 +232,18 @@ while True :
     # Draw second markers
     smx=smy=0
     while smx < secdeg:
-        pygame.draw.circle(bg, clockcolor, (paraeqsmx(smx),paraeqsmy(smy)),dotsize)
+        # pygame.draw.circle(bg, clockcolor, (paraeqsmx(smx),paraeqsmy(smy)),dotsize)
+        pygame.gfxdraw.aacircle(bg, paraeqsmx(smx), paraeqsmy(smy), dotsize, clockcolor)
+        pygame.gfxdraw.filled_circle(bg, paraeqsmx(smx), paraeqsmy(smy), dotsize, clockcolor)
         smy += 6  # 6 Degrees per second
         smx += 6
 
     # Draw hour markers
     shx=shy=0
     while shx < 360:
-        pygame.draw.circle(bg, hourcolor, (paraeqshx(shx),paraeqshy(shy)),dotsize)
+        # pygame.draw.circle(bg, hourcolor, (paraeqshx(shx),paraeqshy(shy)),dotsize)
+        pygame.gfxdraw.aacircle(bg, paraeqshx(shx), paraeqshy(shy), dotsize, hourcolor)
+        pygame.gfxdraw.filled_circle(bg, paraeqshx(shx), paraeqshy(shy), dotsize, hourcolor)
         shy += 30  # 30 Degrees per hour
         shx += 30
 
@@ -263,9 +268,11 @@ while True :
         counter = 0
 
     if timeStatus:
-        pygame.draw.circle(bg, NTP_GoodColor, (dotsize + 5, bg.get_height()-dotsize - 5), dotsize)
+        pygame.gfxdraw.aacircle(bg, dotsize + 5, bg.get_height()- dotsize - 5, dotsize, NTP_GoodColor)
+        pygame.gfxdraw.filled_circle(bg, dotsize + 5, bg.get_height()- dotsize - 5, dotsize, NTP_GoodColor)
     else:
-        pygame.draw.circle(bg, NTP_BadColor, (dotsize + 5, bg.get_height()-dotsize - 5), dotsize)
+        pygame.gfxdraw.aacircle(bg, dotsize + 5, bg.get_height()- dotsize - 5, dotsize, NTP_BadColor)
+        pygame.gfxdraw.filled_circle(bg, dotsize + 5, bg.get_height()- dotsize - 5, dotsize, NTP_BadColor)
 
     # Functions for the status indicators
     bg.blit(image, imageXY)
