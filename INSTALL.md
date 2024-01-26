@@ -31,7 +31,7 @@ From your PC
     scp ~/Desktop/rpi-clock.zip admin@172.18.18.237:~ 
     unzip rpi-clock.zip
 
-## Configure Axial Livewire
+## Configure Axia Livewire
 Edit /home/admin/rpi-clock/RPiclock.ini to suit your environment.
 
 ## Configure systemd
