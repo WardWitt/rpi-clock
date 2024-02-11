@@ -4,7 +4,7 @@ import pygame.gfxdraw
 from pygame.locals import *
 from LWRPClient import LWRPClient
 
-logging.basicConfig(level=logging.DEBUG, filename='RPiclock.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s - %(asctime)s')
+logging.basicConfig(level=logging.ERROR, filename='RPiclock.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s - %(asctime)s')
 
 # Define Global Variables
 global LWRP, LWRP_GPIO, LWRP_GPIO_Triggers, GPIO, GPIO1, GPIO2, GPIO3, GPIO4
