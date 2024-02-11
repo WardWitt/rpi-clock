@@ -4,7 +4,7 @@ import pygame.gfxdraw
 from pygame.locals import *
 from LWRPClient import LWRPClient
 
-logging.basicConfig(level=logging.ERROR, filename='RPiclock.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s - %(asctime)s')
+logging.basicConfig(level=logging.WARNING, filename='RPiclock.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s - %(asctime)s')
 
 # Define Global Variables
 global LWRP, LWRP_GPIO, LWRP_GPIO_Triggers, GPIO, GPIO1, GPIO2, GPIO3, GPIO4
@@ -66,7 +66,7 @@ ipAddress = s.getsockname()[0]
 bg = pygame.display.set_mode(tuple(map(int, config['Display']['Resolution'].split(','))))
 pygame.mouse.set_visible(False)
 
-image = pygame.image.load(config['Logo']['Logo_Image'])
+image = pygame.image.load(config['Logo']['Logo_Image']).convert_alpha()
 # imageXY = tuple(map(int, config['Logo']['Logo_Position'].split(',')))
 
 # Change color to preference (R,G,B) 255 max value
